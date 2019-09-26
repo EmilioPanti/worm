@@ -1,0 +1,124 @@
+.goal-header input {
+    background-color: inherit;
+    border: none;
+    color: var(--font-color);
+    text-align: left;
+    padding-bottom: 20px;
+    text-transform: lowercase;
+}
+.goalName {
+    font-size:36px;
+    color: var(--font-color);
+}
+.profile-tests-literal {
+    float: left;
+    width: 100%;
+}
+.profile-tests-literal li {
+   font-size: 18px;
+   color: var(--font-color);
+   float: left;
+   display: block;
+   width: 45%;
+   margin: 5px;
+}
+.literal-box {
+    background-color: var(--primary-background);
+    border-radius:15px;
+    border: 0 none;
+    position: relative;
+}
+.literal-box p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    padding-top: 8px;
+    margin-left: 15px;
+}
+.literal-box img {
+    height: 26px;
+    margin-right: 10px;
+    margin-top: -3px;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    filter: invert(var(--invert-percentage));
+}
+.literal-viewer {
+    background-color: white;
+    border-radius: 10px;
+}
+.literal-viewer h3 {
+    text-align: left;
+    color: black;
+    text-transform: none;
+}
+.literal-viewer p {
+    text-align: left;
+    color: black;
+    font-size: 16px;
+}
+.literal-viewer h4 {
+    color: var(--theme-color);
+    text-align: left;
+    text-transform: uppercase;
+}
+.tooltip-literal {
+    position: relative;
+    display: inline;
+    font-size: 13px;
+}
+.tooltip-literal .tooltiptext-literal {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 3px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -20px;
+    left: 105%;
+    font-size: 13px;
+}
+.tooltip-literal:hover .tooltiptext-literal {
+    visibility: visible;
+}
+.agent-map-box {
+    background-color:rgba(255, 255, 255, 0.1);
+    border-radius: 0.5em;
+    border-left: 0.25em solid var(--theme-color);
+    position: relative;
+    padding: 10px;
+}
+.agent-map-box h4 {
+    margin-left: 2%;
+    padding-bottom: 2px;
+    font-size: 13px;
+}
+.agent-map-box p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: left;
+    margin-top: -5px;
+    font-size: 13px;
+    margin-left: 2%;
+}
+.profile-agent-map {
+    float: left;
+    width: 100%;
+    margin-bottom: 3%;
+}
+.profile-agent-map li {
+   font-size: 18px;
+   color: var(--font-color);
+   display: block;
+   float: right;
+   width:85%;
+   margin-right: 9%;
+   margin-bottom: 2%;
+}

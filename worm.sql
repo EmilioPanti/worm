@@ -1,0 +1,4 @@
+CREATE TABLE if not exists worm (id integer primary key AUTOINCREMENT, op_id integer, goal_id integer, terminated integer, stop_at_first_goals integer);
+CREATE TABLE if not exists worm_agent_map (id integer primary key AUTOINCREMENT, worm_id integer, agent_id integer, starter integer, phase integer, cleanup integer, finished_attack integer, status text, UNIQUE(worm_id, agent_id));
+CREATE TABLE if not exists goal (id integer primary key AUTOINCREMENT, goal_id text, adversary_id text, name text, description text, UNIQUE (name));
+CREATE TABLE if not exists goal_map (goal_id integer, clause integer, type_condition text, name text, val text, UNIQUE (goal_id, clause, type_condition, name, val));

@@ -1,0 +1,6 @@
+---
+
+id: 908107h5-dc1e-4204-0009-88df018173z1
+name: worm_sequential
+module: plugins.worm.app.worm_planners.worm_sequential
+params: {}
