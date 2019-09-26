@@ -44,7 +44,7 @@ Using "normal" CALDERA operations with adversary profiles that perform <b>latera
 <br>
 
 These problems are due to two implementation choices:
-1) the operations are guided primarily by the execution phase and second by the agents
+1) the operations are guided primarily by the execution phase and secondly by the agents
 2) for each agent, the links of all the phases up to now executed are generated -- not just the current one
 ```
 for each phase {
@@ -98,7 +98,7 @@ do curl -sk -X POST -H 'file:sandcat.go' -H 'platform:linux' #{server}/file/down
 ## WORM-PLANNERS
 
 As with normal CALDERA operations, custom planners can also be used for worm-operations. To do this, just insert the relevant .yml file in the data/planners folder.
-Unlike planners for normal CALDERA operations - they only need to implement the execute () function - the planners for worm operations must implement the following two functions:
+Unlike planners for normal CALDERA operations - they only need to implement the execute function - the planners for worm operations must implement the following two functions:
 1) <b>create_links</b>: given a worm-operation and an agent, it generates all possible links for the next phase that the agent must execute.
 2) <b>create_cleanup_links</b>: given a worm-operation and an agent, it generates the cleanup links for the phases executed by the agent.
 
@@ -122,6 +122,7 @@ Since the host-facts depend on the abilities, an adversary's profile is associat
 Obviously different goals can be created for the same adversary profile.
 
 It is possible to create goals either through the GUI or by loading the .yml file in the data/goals folder:
+
 File .yml example:
 ```
 id: 89da1673-184d-4509-a53a-e4a3b4a06c2e
