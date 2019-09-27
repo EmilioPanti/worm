@@ -9,12 +9,14 @@ All the material in this repository can be used freely, provided that the author
 ## Requirements and quick start
 
 1) To work properly, this plugin needs some extra features with respect to the [basic CALDERA version](https://github.com/mitre/caldera#planning-system).
-You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-2).
+You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-1).
 The two versions differs because of an extra property of the agents: the <b>father</b>.
 
-2) Download this plugin and insert it into CALDERA plugins folder.
+2) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-2)
 
-3) Make sure you have inserted the WORM plugin in the CALDERA conf/local.yml configuration file:
+3) Download this plugin and insert it into CALDERA plugins folder.
+
+4) Make sure you have inserted the WORM plugin in the CALDERA conf/local.yml configuration file:
 ```
 plugins:
   - worm
