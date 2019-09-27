@@ -8,7 +8,7 @@ All the material in this repository can be used freely, provided that the author
 
 ## Requirements and quick start
 
-1) This plugin is tested for  <b>2.3.2</b> CALDERA version.
+1) This plugin branch is tested for  <b>2.3.2</b> CALDERA version.
 
 2) To work properly, this plugin needs some extra features with respect to the [basic 2.3.2 CALDERA version](https://github.com/mitre/caldera#planning-system).
 You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent).
@@ -63,7 +63,7 @@ Solution to the problems mentioned above:
 ## WORM-OPERATION
 
 I describe this operation in terms of the differences with respect a normal CALDERA operation:
-1) <b>the basic logic</b>: in this type of operation the agents execute the attack <b>independently</b> of each other - e.g. agent X can be in phase 1 while agent Y is in phase 4.
+1) <b>the basic logic</b>: in this type of operation the agents execute the attack <b>independently</b> of each other - e.g. agent X can be in phase 1 while agent Y is in phase 4. The independence between agents also makes the execution of the entire attack - and the expansion in case of lateral movements - faster.
 2) <b>agent-map</b>: the GUI can build a view of the 'agents family tree' and any 'orphan agents'.
 3) <b>goal</b>: it is possible to define a goal for the attack that we perform (more details in the goal section).
 4) <b>goal-policy</b>: if a goal is set, it is possible either to stop an agent when a goal-agent is reached or to continue the attack as long as it possible.
