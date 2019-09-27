@@ -17,16 +17,19 @@ class LogicalPlanner:
         """
         operation = worm['op']
         phase_abilities = [i for p, v in operation['adversary']['phases'].items() if p == ready_agent['phase'] for i in v]
+        phase_abilities = sorted(phase_abilities, key=lambda i: i['id'])
+
         link_status = await self.planning_svc._default_link_status(operation)
         links = []
         for a in await self.planning_svc.capable_agent_abilities(phase_abilities, ready_agent):
             links.append(
                 dict(op_id=operation['id'], paw=ready_agent['paw'], ability=a['id'], command=a['test'], score=0,
                      status=link_status, decide=datetime.now(), executor=a['executor'],
-                     jitter=self.planning_svc.jitter(operation['jitter'])))
+                     jitter=self.planning_svc.jitter(operation['jitter']), adversary_map_id=a['adversary_map_id']))
         links[:] = await self.planning_svc._trim_links(operation, links, ready_agent)
-        for l in [link for link in list(reversed(sorted(links, key=lambda k: k['score'])))]:
+        for l in await self.planning_svc._sort_links(links):
             l.pop('rewards', [])
+            l.pop('adversary_map_id')
             await self.data_svc.create('core_chain', l)
 
     async def create_cleanup_links(self, worm, ready_agent):
