@@ -12,7 +12,7 @@ All the material in this repository can be used freely, provided that the author
 You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-1).
 The two versions differs because of an extra property of the agents: the <b>father</b>.
 
-2) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-2)
+2) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/mitre/sandcat/pull/97/files)
 
 3) Download this plugin and insert it into CALDERA plugins folder.
 
