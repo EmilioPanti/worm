@@ -1,7 +1,7 @@
 id: 89da1673-184d-4509-a53a-e4a3b4a06c2e
 name: find-file
 description: specific file in linux agents
-adversary: 1a98b8e6-18ce-4617-8cc5-e65a1a9d490e
+adversary: de07f52d-9928-4071-9142-cb1d3bd851e8
 clauses:
   1:
   - {name: platform, type: property, value: linux}
