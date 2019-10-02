@@ -158,8 +158,8 @@ Even for worm-operations it is possible to download (and view by GUI) the report
 
 After the end of a worm-operation, it is possible to see the list of the agents which participated and which of them are goal-agents.
 
-It is also possible:
+It is also possible to:
 * compare the results of a finished worm-operation with other goals - associated with the same adversary profile executed.
-* split easily the <b>goal-agents</b> from the <b>no-goal-agents</b> that participated in an worm-operation into distinct groups.
+* split easily the <b>goal-agents</b> from the <b>no-goal-agents</b> that participated in a worm-operation into distinct groups.
 
 ![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/agent.png)
