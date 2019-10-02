@@ -6,6 +6,8 @@ This project is part of my thesis project at the [University of Pisa](https://ww
 
 All the material in this repository can be used freely, provided that the author (me) and the [University of Pisa](https://www.di.unipi.it/en/) are properly cited.
 
+Note: this plugin could be fully integrated with the CALDERA core system and the CHAIN plugin -- for more information read the last section of this file.
+
 ## Requirements and quick start
 
 1) This plugin branch is tested for  <b>2.3.2</b> CALDERA version.
@@ -163,3 +165,12 @@ It is also possible to:
 * split easily the <b>goal-agents</b> from the <b>no-goal-agents</b> that participated in a worm-operation into distinct groups.
 
 ![alt text](https://github.com/EmilioPanti/worm/blob/master/docs/img/agent.png)
+
+
+## Possible integration
+
+The WORM plugin could be completely integrated with the CALDERA core system and the CHAIN plugin by:
+1. by introducing the <b>father parameter</b> for agents (PR)
+2. extending the concept of <b>goals</b> also to normal CALDERA operations
+3. adding the <b>agent-map</b> section even to normal CALDERA operations
+4. entering the possibility to run an adversary profile <b>choosing between the two different logics</b>: giving priority to the phases and then to the agents (normal CALDERA operations logic), or giving priority to the agents and then to the phases (worm-operations logic)
