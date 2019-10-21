@@ -1,3 +1,22 @@
+/** SECTIONS **/
+
+function viewSection(identifier){
+    let parent = $('#'+identifier);
+    $(parent).insertBefore($('#atomic-blocks-end'));
+    $(parent).css('display', 'block');
+    window.location.hash='#'+identifier;
+}
+
+function clearWorkflow(){
+    $('.section-profile').each(function(){ $(this).css('display', 'none'); });
+}
+
+function showHide(show, hide) {
+    $(show).each(function(){$(this).prop('disabled', false).css('opacity', 1.0)});
+    $(hide).each(function(){$(this).prop('disabled', true).css('opacity', 0.5)});
+}
+
+
 /** WORMS **/
 
 let atomic_interval = null;
@@ -186,19 +205,35 @@ function clearTimeline(op_id) {
 }
 
 function refreshUpdatableFields(chain, div){
-    if(chain.collect)
+    if(chain.collect) {
+        div.find('#'+chain.id+'-rm').remove();
         div.find('#link-collect').html(chain.collect.split('.')[0]);
-    if(chain.finish)
-        div.find('#link-finish').html(chain.finish.split('.')[0]);
-    if(chain.status === 0) {
-        div.removeClass('grey');
-        div.addClass('green');
-    } else if (chain.status === 1) {
-        div.removeClass('grey');
-        div.addClass('red');
-    } else {
-        div.addClass('grey');
     }
+    if(chain.finish) {
+        div.find('#'+chain.id+'-rs').css('display', 'block');
+        div.find('#'+chain.id+'-rm').remove();
+        div.find('#link-finish').html(chain.finish.split('.')[0]);
+    }
+    if(chain.status === 0) {
+        applyTimelineColor(div, 'success');
+    } else if (chain.status === -2) {
+        div.find('#'+chain.id+'-rm').remove();
+        applyTimelineColor(div, 'discarded');
+    } else if (chain.status === 1) {
+        applyTimelineColor(div, 'failure');
+    } else if (chain.status === 124) {
+        applyTimelineColor(div, 'timeout');
+    } else if (chain.status === -3 && chain.collect) {
+        applyTimelineColor(div, 'collected');
+    } else {
+        applyTimelineColor(div, 'queued');
+    }
+}
+
+function applyTimelineColor(div, color) {
+    div.removeClass('collected');
+    div.removeClass('queued');
+    div.addClass(color);
 }
 
 function rollup(id) {
@@ -555,16 +590,12 @@ function loadAdversary(adversaryId) {
 
 function loadAdversaryCallback(data) {
     let hostFacts = [];
-    $.each(data[0]['phases'], function(phase, abilities) {
-        abilities.forEach(function(a) {
-            a['parser'].forEach(function(f) {
-                if(f['property'].startsWith('host')) {
-                    if(!hostFacts.includes(f['property'])){
-                        hostFacts.push(f['property']);
-                    }
-                }
-            });
-        });
+    data[0]['facts'].forEach(function(f) {
+        if(f.startsWith('host')) {
+            if(!hostFacts.includes(f)){
+                hostFacts.push(f);
+            }
+        }
     });
     $('#clause-modal').data("host-facts-list", hostFacts);
 }
@@ -730,7 +761,7 @@ function displayReport(data) {
     $('#report-adversary-desc').html(data.adversary.description);
     $('#report-group').html(data.starting_group);
     $('#report-group-cnt').html(data.host_group.length + ' hosts were included');
-    $('#report-steps').html(data.steps.length);
+    $('#report-steps').html(reportStepLength(data.steps));
     $('#report-steps-attack').html(data.adversary.name + " was " + reportScore(data.steps) + " successful in the attack");
     $('#report-planner').html(data.planner.name);
     $('#report-planner-desc').html(data.adversary.name + " collected " + data.facts.length + " facts and used them to make decisions");
@@ -765,14 +796,24 @@ function reportDuration(start, end) {
     return operationInMinutes+'min '+secondsRemainder+'sec';
 }
 
+function reportStepLength(steps) {
+    let step_len = 0;
+    for ( let agent in steps ){
+        step_len += steps[agent].steps.length;
+    }
+    return step_len;
+}
+
 function reportScore(steps) {
     let failed = 0;
-    steps.forEach(s => {
-        if(s.score > 0) {
+    for ( let agent in steps ) {
+        steps[agent].steps.forEach(s => {
+        if(s.status > 0) {
             failed += 1;
         }
     });
-    return 100 - (failed/steps.length * 100) + '%';
+    }
+    return parseInt(100 - (failed/reportStepLength(steps) * 100)) + '%';
 }
 
 function addAttackBreakdown(phases, steps) {
@@ -786,15 +827,17 @@ function addAttackBreakdown(phases, steps) {
         });
     });
     plans.forEach(p => {
-        steps.forEach(s => {
-            if(p.tactic == s.attack.tactic && p.technique_id == s.attack.technique_id && p.technique_name == s.attack.technique_name) {
-                if(s.status > 0) {
-                    p['failure'] += 1;
-                } else {
-                    p['success'] += 1;
+        for ( let agent in steps ) {
+            steps[agent].steps.forEach(s => {
+                if (p.tactic == s.attack.tactic && p.technique_id == s.attack.technique_id && p.technique_name == s.attack.technique_name) {
+                    if (s.status > 0) {
+                        p['failure'] += 1;
+                    } else {
+                        p['success'] += 1;
+                    }
                 }
-            }
-        });
+            });
+        }
     });
     plans.forEach(p => {
         $("#reports-dash-attack").append("<tr><td><span style='color:green'>"+p.success+"</span> / <span style='color:red'>"+p.failure+"</span></td><td>"+p.tactic+"</td><td>"+p.technique_id+"</td><td>"+p.technique_name+"</td></tr>");

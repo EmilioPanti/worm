@@ -5,6 +5,7 @@ class LogicalPlanner:
 
     def __init__(self, planning_svc):
         self.planning_svc = planning_svc
+        self.agent_svc = planning_svc.get_service('agent_svc')
         self.data_svc = planning_svc.get_service('data_svc')
 
 
@@ -21,16 +22,15 @@ class LogicalPlanner:
 
         link_status = await self.planning_svc._default_link_status(operation)
         links = []
-        for a in await self.planning_svc.capable_agent_abilities(phase_abilities, ready_agent):
+        for a in await self.agent_svc.capable_agent_abilities(phase_abilities, ready_agent):
             links.append(
                 dict(op_id=operation['id'], paw=ready_agent['paw'], ability=a['id'], command=a['test'], score=0,
                      status=link_status, decide=datetime.now(), executor=a['executor'],
                      jitter=self.planning_svc.jitter(operation['jitter']), adversary_map_id=a['adversary_map_id']))
-        links[:] = await self.planning_svc._trim_links(operation, links, ready_agent)
+        ability_requirements = {ab['id']: ab.get('requirements', []) for ab in phase_abilities}
+        links[:] = await self.planning_svc._trim_links(operation, links, ready_agent, ability_requirements)
         for l in await self.planning_svc._sort_links(links):
-            l.pop('rewards', [])
-            l.pop('adversary_map_id')
-            await self.data_svc.create('core_chain', l)
+            await self.agent_svc.perform_action(l)
 
     async def create_cleanup_links(self, worm, ready_agent):
         """
@@ -50,5 +50,4 @@ class LogicalPlanner:
                                     score=0, decide=datetime.now(), jitter=0, status=link_status))
         links[:] = await self.planning_svc._trim_links(worm['op'], links, ready_agent)
         for link in reversed(links):
-            link.pop('rewards', [])
-            await self.data_svc.create('core_chain', link)
+            await self.data_svc.create_link(link)

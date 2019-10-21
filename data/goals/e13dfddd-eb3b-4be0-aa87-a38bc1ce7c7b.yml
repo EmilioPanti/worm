@@ -1,0 +1,13 @@
+adversary: de07f52d-9928-4071-9142-cb1d3bd851e8
+clauses:
+  1:
+  - name: platform
+    type: property
+    value: linux
+  2:
+  - name: host.file.sensitive
+    type: host-fact
+    value: /usr/share/perl/5.28.1/CPAN/Kwalify/distroprefs.yml
+description: specific file in linux agents
+id: e13dfddd-eb3b-4be0-aa87-a38bc1ce7c7b
+name: find-file2

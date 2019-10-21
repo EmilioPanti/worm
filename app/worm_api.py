@@ -68,7 +68,7 @@ class WormApi:
                 worm=lambda d: self.worm_data_svc.explode_worm(criteria=d),
                 goal=lambda d: self.worm_data_svc.explode_goal(criteria=d),
                 core_result=lambda d: self.data_svc.explode_results(criteria=d),
-                core_adversary=lambda d: self.data_svc.explode_adversaries(criteria=d),
+                core_adversary=lambda d: self.worm_data_svc.explode_adversaries_and_facts(criteria=d),
                 worm_report=lambda d: self.worm_operation_svc.generate_worm_report(**d),
                 relate_worm_goal=lambda d: self.worm_operation_svc.relate_worm_goal(**d)
             )

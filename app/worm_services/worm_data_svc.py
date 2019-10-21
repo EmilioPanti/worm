@@ -144,6 +144,28 @@ class WormDataSvc(BaseService):
             g['clauses'] = dict(clauses)
         return goals
 
+    async def explode_adversaries_and_facts(self, criteria=None):
+        """
+        Get all - or a filtered list of - adversaries, built out with all sub-objects 
+        plus the facts collected by its abilities
+        :param criteria:
+        :return: a list of dictionary results
+        """
+        adversaries = await self.data_svc.dao.get('core_adversary', criteria)
+        for adv in adversaries:
+            phases = defaultdict(list)
+            adv_facts = set()
+            for t in await self.data_svc.dao.get('core_adversary_map', dict(adversary_id=adv['adversary_id'])):
+                for ability in await self.data_svc.explode_abilities(dict(ability_id=t['ability_id'])):
+                    ability['adversary_map_id'] = t['id']
+                    phases[t['phase']].append(ability)
+                    for p in [parser for parser in ability['parsers']]:
+                        relationships = await self.data_svc.get('core_parser_map', dict(parser_id=p['id']))
+                        for rel in relationships:
+                            adv_facts.add(rel['source'])
+            adv['phases'] = dict(phases)
+            adv['facts'] = list(adv_facts)
+        return adversaries
 
     """ PRIVATE """
 
@@ -163,9 +185,11 @@ class WormDataSvc(BaseService):
         agent_properties = ['paw', 'architecture', 'platform', 'location', 'pid', 'ppid', 'father']
         adv_host_facts = set()
         for k, abilities in adversary['phases'].items():
-            for p in [ab['parser'] for ab in abilities]:
-                for fact in [f for f in p if f['property'].startswith('host')]:
-                    adv_host_facts.add(fact['property'])
+            for parsers in [ab['parsers'] for ab in abilities]:
+                for p in parsers:
+                    relationships = await self.data_svc.get('core_parser_map', dict(parser_id=p['id']))
+                    for rel in [r for r in relationships if r['source'].startswith('host')]:
+                        adv_host_facts.add(rel['source'])
         for c in clauses:
             if c['type'] == 'host-fact':
                 if c['name'] not in adv_host_facts:

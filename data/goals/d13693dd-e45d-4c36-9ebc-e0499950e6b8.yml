@@ -1,0 +1,9 @@
+adversary: de07f52d-9928-4071-9142-cb1d3bd851e8
+clauses:
+  1:
+  - name: platform
+    type: property
+    value: linux
+description: specific file in linux agents
+id: d13693dd-e45d-4c36-9ebc-e0499950e6b8
+name: find-linux

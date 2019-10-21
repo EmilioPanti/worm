@@ -15,6 +15,7 @@ class WormOperationSvc(BaseService):
         self.parsing_svc = services.get('parsing_svc')
         self.worm_data_svc = services.get('worm_data_svc')
         self.log = self.add_service('worm_operation_svc', self)
+        self.reporting_svc = self.get_service('reporting_svc')
         
 
     async def close_worm_operation(self, worm):
@@ -29,7 +30,7 @@ class WormOperationSvc(BaseService):
         update = dict(finish=self.get_current_timestamp(), state='finished')
         await self.data_svc.update('core_operation', key='id', value=worm['op']['id'], data=update)
         report = await self.generate_worm_report(worm['id'])
-        await self._write_report(report)
+        await self.reporting_svc.write_report(report)
 
     async def run_worm_operation(self, worm_id):
         """
@@ -69,7 +70,7 @@ class WormOperationSvc(BaseService):
         :return: a JSON report
         """
         worm = (await self.worm_data_svc.explode_worm(dict(id=worm_id)))[0]
-        report = await self.operation_svc.generate_operation_report(worm['op']['id'])
+        report = await self.reporting_svc.generate_operation_report(worm['op']['id'], agent_output=False)
         report['worm_id'] = worm['id']
         report['op_id'] = report.pop('id')
         report['host_group'] = worm['op']['host_group']
@@ -267,11 +268,6 @@ class WormOperationSvc(BaseService):
                 await planner.create_links(worm, a)
                 await self.data_svc.update('worm_agent_map', key='id', value=agent_map_id, 
                                                     data=dict(phase=a['phase']))
-    
-    @staticmethod
-    async def _write_report(report):
-        with open(os.path.join('logs', 'worm_operation_report_' + report['name'] + '.json'), 'w') as f:
-            f.write(json.dumps(report, indent=4))
 
     async def _total_check_goal_agent(self, agent, goal, worm):
         """
