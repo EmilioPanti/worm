@@ -11,10 +11,10 @@ Note: this plugin could be fully integrated with the CALDERA core system and the
 ## Requirements and quick start
 
 1) To work properly, this plugin needs some extra features with respect to the [basic CALDERA version](https://github.com/mitre/caldera#planning-system).
-You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-FatherAgent-1).
+You can download the version with the features required by this [branch](https://github.com/EmilioPanti/caldera/tree/EmilioPanti-AgentFather).
 The two versions differs because of an extra property of the agents: the <b>father</b>.
 
-2) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/mitre/sandcat/pull/97/files)
+2) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/mitre/sandcat/pull/111)
 
 3) Download this plugin and insert it into CALDERA plugins folder.
 
