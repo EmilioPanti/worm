@@ -18,9 +18,11 @@ The two versions differs because of an extra property of the agents: the <b>fath
 
 3) Edit the plugins/sandcat/gocat/sandcat.go file in the same places as this [PR](https://github.com/mitre/sandcat/pull/97/files)
 
-4) Download this plugin and insert it into CALDERA plugins folder.
+4) It is likely that the Sandcat agents' executables (sandcat.go-windows, sandcat.go-linux, sandcat.go-darwin, located in plugins/sandcat/payloads) will need to be recompiled for their proper functioning. Some useful information about it: [wiki](https://github.com/mitre/caldera/wiki/Plugins-sandcat).
 
-5) Make sure you have inserted the WORM plugin in the CALDERA conf/local.yml configuration file:
+5) Download this plugin and insert it into CALDERA plugins folder.
+
+6) Make sure you have inserted the WORM plugin in the CALDERA conf/local.yml configuration file:
 ```
 plugins:
   - worm
